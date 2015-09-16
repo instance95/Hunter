@@ -1,0 +1,111 @@
+//http://spelprogrammering.nu/koda/6422527
+<script src="http://spelprogrammering.nu/simple.js">
+	
+  //hunter, player vs player
+  var player1 = {x: 20,
+                 y: totalHeight / 2 - 10,
+                 speed: 10};
+    
+  var player2 = {x: totalWidth - 20,
+                 y: totalHeight / 2 - 10,
+                 speed: 10};
+  
+  var bullets = [];
+  
+  var delay1 = 0;
+  var delay2 = 0;
+  
+  function Bullet(x, y, xSpeed)
+  {
+    this.x = x;
+    this.y = y;
+    this.width = 10;
+    this.height = 2;
+    this.speed = xSpeed;
+   
+    this.update = function()
+    {
+      rectangle(this.x, this.y, this.width, this.height, "black");
+      this.x += this.speed;
+    };
+   }
+  
+  function player1Shoot()
+  {
+    while (delay1 > 20){
+    	bullets.push(new Bullet(player1.x + 20, player1.y, 10)); 
+      	delay1 = 0;
+    }
+  }
+  
+  function player1Action()
+  {
+    if (keyboard.w && player1.y > 25) {player1.y -= player1.speed};
+    if (keyboard.a && player1.x > 25) {player1.x -= player1.speed};
+    if (keyboard.s && player1.y < totalHeight - 25) {player1.y += player1.speed};
+    if (keyboard.d && player1.x < totalWidth - 25) {player1.x += player1.speed};
+    if (keyboard.space) {player1Shoot()};
+    
+  }
+  
+  function player2Shoot()
+  {
+    while (delay2 > 20){
+    	bullets.push(new Bullet(player2.x - 20, player2.y, -10)); 
+      	delay2 = 0;
+    }
+  }
+  
+  function player2Action()
+  { 
+    if (keyboard.up && player2.y > 25) {player2.y -= player2.speed};
+    if (keyboard.left && player2.x > 25) {player2.x -= player2.speed};
+    if (keyboard.down && player2.y < totalHeight - 25) {player2.y += player2.speed};
+    if (keyboard.right && player2.x < totalWidth - 25) {player2.x += player2.speed};
+    if (keyboard.enter) {player2Shoot()};
+    
+  }
+  
+  function drawGame()
+  {
+    fill("grey");
+  
+    player1.picture = circle(player1.x, player1.y, 20, "red");
+    player2.picture = circle(player2.x, player2.y, 20, "blue");
+  }
+  
+
+  function gameLogic(){
+    for (i = 0; i < bullets.length; i++)
+      {
+        if (bullets[i].x < totalWidth) {bullets[i].update();}
+       
+        endGame();
+      }
+  }
+  
+  function endGame()
+  {
+   if (distance(player1, bullets[i]) < 15) 
+      {
+      	stopUpdate();
+        text(100, totalHeight-100, 24, "BLUE WINS!!!", "red");
+      }  
+      if (distance(player2, bullets[i]) < 25) 
+      {
+      	stopUpdate();
+        text(100, totalHeight-100, 24, "RED WINS!!!", "red");
+      }  
+  }
+  
+  function update()
+  {
+    drawGame(); 
+    gameLogic();
+    player1Action();
+    player2Action();
+    
+    delay1++;
+    delay2++;
+  }
+</script>
