@@ -99,7 +99,7 @@
    if (distance(player1, bullets[i]) < 15) 
       {
       	stopUpdate();
-        picture(player1.x - 40, player1.y - 35, "http://koda.nu/bilder/explosion.png");
+        picture(player1.x - 30, player1.y - 35, "http://koda.nu/bilder/explosion.png");
         text(100, totalHeight-100, 24, "The Rebellion WINS!!!", "blue");
       }  
       if (distance(player2, bullets[i]) < 25) 
