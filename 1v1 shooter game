@@ -1,6 +1,5 @@
-//http://spelprogrammering.nu/koda/6422527
 <script src="http://spelprogrammering.nu/simple.js">
-	
+  // http://spelprogrammering.nu/koda/6422527	
   //hunter, player vs player
   var player1 = {x: 20,
                  y: totalHeight / 2 - 10,
@@ -10,12 +9,14 @@
                  y: totalHeight / 2 - 10,
                  speed: 10};
   
-  var bullets = [];
-  
+  player1.picture = "http://koda.nu/bilder/tie.png";
+  player2.picture = "http://koda.nu/bilder/xwing.png";
+
+  var bullets = [];  
   var delay1 = 0;
   var delay2 = 0;
   
-  function Bullet(x, y, xSpeed)
+  function Bullet(x, y, xSpeed, player)
   {
     this.x = x;
     this.y = y;
@@ -25,15 +26,25 @@
    
     this.update = function()
     {
-      rectangle(this.x, this.y, this.width, this.height, "black");
-      this.x += this.speed;
+      if(player == player1)
+      {
+        rectangle(this.x, this.y, this.width, this.height, "red");
+      	this.x += this.speed;
+      }
+      
+      if(player == player2)
+      {
+        rectangle(this.x, this.y, this.width, this.height, "green");
+      	this.x += this.speed;
+      }
+      
     };
    }
   
   function player1Shoot()
   {
     while (delay1 > 20){
-    	bullets.push(new Bullet(player1.x + 20, player1.y, 10)); 
+    	bullets.push(new Bullet(player1.x + 20, player1.y, 10, player1)); 
       	delay1 = 0;
     }
   }
@@ -51,7 +62,7 @@
   function player2Shoot()
   {
     while (delay2 > 20){
-    	bullets.push(new Bullet(player2.x - 20, player2.y, -10)); 
+    	bullets.push(new Bullet(player2.x - 20, player2.y, -10, player2)); 
       	delay2 = 0;
     }
   }
@@ -68,10 +79,9 @@
   
   function drawGame()
   {
-    fill("grey");
-  
-    player1.picture = circle(player1.x, player1.y, 20, "red");
-    player2.picture = circle(player2.x, player2.y, 20, "blue");
+    picture(0, 0, "http://img1.jurko.net/wide/wallpaper_2531.jpg", totalWidth, totalHeight);
+ 	picture(player1.x, player1.y - 20, player1.picture);
+    picture(player2.x - 90, player2.y - 15, player2.picture);  
   }
   
 
@@ -89,12 +99,14 @@
    if (distance(player1, bullets[i]) < 15) 
       {
       	stopUpdate();
-        text(100, totalHeight-100, 24, "BLUE WINS!!!", "red");
+        picture(player1.x - 40, player1.y - 35, "http://koda.nu/bilder/explosion.png");
+        text(100, totalHeight-100, 24, "The Rebellion WINS!!!", "blue");
       }  
       if (distance(player2, bullets[i]) < 25) 
       {
       	stopUpdate();
-        text(100, totalHeight-100, 24, "RED WINS!!!", "red");
+        picture(player2.x - 85, player2.y - 35, "http://koda.nu/bilder/explosion.png");
+        text(100, totalHeight-100, 24, "The Dark side WINS!!!", "red");
       }  
   }
   
